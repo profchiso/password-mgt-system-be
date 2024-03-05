@@ -1,0 +1,25 @@
+{
+  "name": "secured-password-mgt-sys",
+  "version": "1.0.0",
+  "description": "secured password management system",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Cryptographic",
+    "hash",
+    "password",
+    "secured",
+    "password"
+  ],
+  "author": "GBT",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  },
+  "dependencies": {
+    "express": "^4.18.3",
+    "mongoose": "^8.2.1"
+  }
+}
