@@ -32,7 +32,7 @@ exports.register = async (req, res) => {
     res.status(500).json({
       statusCode: 500,
       responseText: "FAIL",
-      data: { resource: {}, msg: "Could not create user something went wrong" },
+      error: [{ msg: "Could not create user something went wrong" }],
     });
   }
 };
@@ -81,7 +81,7 @@ exports.login = async (req, res) => {
     res.status(500).json({
       statusCode: 500,
       responseText: "FAIL",
-      data: { resource: {}, msg: "Something went wrong" },
+      error: [{ msg: "Something went wrong" }],
     });
   }
 };
@@ -98,7 +98,7 @@ exports.getUsers = async (req, res) => {
     res.status(500).json({
       statusCode: 500,
       responseText: "FAIL",
-      data: { resource: {}, msg: "Something went wrong" },
+      error: [{ msg: "Something went wrong" }],
     });
   }
 };
