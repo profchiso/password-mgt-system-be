@@ -1,5 +1,9 @@
 const { User } = require("../models/User");
-const { hashUserPassword } = require("../utils/passwordManipulation");
+const {
+  hashUserPassword,
+  decryptPassword,
+} = require("../utils/passwordManipulation");
+const { generateAccessToken } = require("../utils/tokenManagement");
 exports.register = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -34,6 +38,44 @@ exports.register = async (req, res) => {
 };
 exports.login = async (req, res) => {
   try {
+    const { email, password } = req.body;
+    //CHECK IF USER EXIST
+    const existingUser = await User.findOne({ email });
+    if (!existingUser) {
+      return res.status(400).send({
+        statusCode: 400,
+        responseText: "FAIL",
+        errors: [{ msg: `Invalid user credentials` }],
+      });
+    }
+
+    //COMPARE ENTERED PASSWORD WITH HASHED PASSWORD
+    if (!(await decryptPassword(password, existingUser.password))) {
+      return res.status(400).json({
+        statusCode: 400,
+        responseText: "FAIL",
+        errors: [{ msg: `Invalid user credentials` }],
+      });
+    }
+    //JWT PAYLOAD FOR SIGNED IN USER
+    const payLoad = {
+      user: {
+        id: existingUser.id,
+      },
+    };
+    let accessToken = await generateAccessToken(payLoad);
+    let resource = { ...existingUser._doc };
+    delete resource.password;
+    req.user = resource;
+    res.status(200).json({
+      statusCode: 200,
+      responseText: "SUCCESS",
+      data: {
+        msg: `Login successful`,
+        resource,
+        extra: { accessToken },
+      },
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({
