@@ -5,7 +5,7 @@ exports.register = async (req, res) => {
     const { email, password } = req.body;
     const userExist = await User.findOne({ email });
     if (userExist) {
-      res.status(400).json({
+      return res.status(400).json({
         statusCode: 400,
         responseText: "FAIL",
         data: {
@@ -36,6 +36,11 @@ exports.login = async (req, res) => {
   try {
   } catch (error) {
     console.log(error);
+    res.status(500).json({
+      statusCode: 500,
+      responseText: "FAIL",
+      data: { resource: {}, msg: "Something went wrong" },
+    });
   }
 };
 exports.getUsers = async (req, res) => {
