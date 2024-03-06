@@ -34,9 +34,24 @@ exports.register = async (req, res) => {
 };
 exports.login = async (req, res) => {
   try {
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 };
 exports.getUsers = async (req, res) => {
   try {
-  } catch (error) {}
+    const users = await User.find({});
+    res.status(200).json({
+      statusCode: 200,
+      responseText: "SUCCESS",
+      data: { resource: users, msg: "User fetched successfully" },
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      statusCode: 500,
+      responseText: "FAIL",
+      data: { resource: {}, msg: "Something went wrong" },
+    });
+  }
 };
