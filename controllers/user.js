@@ -2,7 +2,19 @@ const { User } = require("../models/User");
 const { hashUserPassword } = require("../utils/passwordManipulation");
 exports.register = async (req, res) => {
   try {
-    const { password } = req.body;
+    const { email, password } = req.body;
+    const userExist = await User.findOne({ email });
+    if (userExist) {
+      res.status(400).json({
+        statusCode: 400,
+        responseText: "FAIL",
+        data: {
+          resource: {},
+          msg: "Email already exists",
+        },
+      });
+    }
+
     let hashedPassword = await hashUserPassword(password);
     req.body.password = hashedPassword;
     const createdUser = await User.create(req.body);
