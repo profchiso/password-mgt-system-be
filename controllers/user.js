@@ -91,7 +91,7 @@ exports.getUsers = async (req, res) => {
     res.status(200).json({
       statusCode: 200,
       responseText: "SUCCESS",
-      data: { resource: users, msg: "User fetched successfully" },
+      data: { msg: "User fetched successfully", resource: users },
     });
   } catch (error) {
     console.log(error);
